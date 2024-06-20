@@ -16,19 +16,14 @@ contactRouter.get("/", async (req: Request, res: Response) => {
   });
 });
 contactRouter.get("/:id", async (req: Request, res: Response) => {
-    contactModel.findOne((err: Error, messages: Contact[]) => {
+    
+    const contactId: number = Number(req.params.id);
+    contactModel.findOne(contactId, (err: Error, contact_message: Contact) => {
       if (err) {
-        return res.status(500).json({ errorMessage: err.message });
+        return res.status(500).json({ message: err.message });
       }
-  
-      res.status(200).json({ data: messages });
+      res.status(200).json({ data: contact_message });
     });
   });
-  export const findOne = (contactId: number, callback: Function) => {
-    const queryString = `SELECT * FROM users WHERE id=?`;
-    db.query(queryString, contactId, (err, result) => {
-      if (err) {
-        callback(err);
-      }
  
 export { contactRouter };

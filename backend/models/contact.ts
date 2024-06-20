@@ -24,3 +24,21 @@ export const findAll = (callback: Function) => {
     callback(null, contact_messages);
   });
 };
+export const findOne = (contactId: number, callback: Function) => {
+    const queryString = `SELECT * FROM contact WHERE id=?`;
+    db.query(queryString, contactId, (err, result) => {
+      if (err) {
+        callback(err);
+      }
+  
+      const row = (<RowDataPacket>result)[0];
+      const contact: Contact = {
+        id: row.id,
+        nume: row.nume,
+        prenume: row.prenume,
+        email: row.email,
+        mesaj: row.mesaj,
+      };
+      callback(null, contact);
+    });
+  };
